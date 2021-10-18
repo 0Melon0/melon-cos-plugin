@@ -33,10 +33,11 @@ module.exports = class MelonCosPlugin {
 
     compiler.hooks.emit.tapAsync('ToCos', (params, cb) => {
       const projectName = this.options.projectName;
+      const dirName = this.options.dirName || new Date().toLocaleDateString();
       for (const key in params.assets) {
         if (Object.hasOwnProperty.call(params.assets, key)) {
           if (!key.endsWith(".html")) {
-            this.uploadFile(path.join(projectName, key), params.assets[key].source());
+            this.uploadFile(path.join(projectName, dirName, key), params.assets[key].source());
           }
         }
       }
