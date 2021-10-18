@@ -1,11 +1,16 @@
 {
   "name": "melon-cos-plugin",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "upload assets file to COS base webpack5",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "keywords": [
+    "webpack",
+    "webpack5",
+    "cos"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/0Melon0/melon-cos-plugin.git"
