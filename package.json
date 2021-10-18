@@ -6,8 +6,15 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/0Melon0/melon-cos-plugin.git"
+  },
+  "author": "melon",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/0Melon0/melon-cos-plugin/issues"
+  },
   "dependencies": {
     "cos-nodejs-sdk-v5": "^2.10.5",
     "html-webpack-plugin": "^5.4.0",
