@@ -18,9 +18,11 @@
 ```js
   const MelonCosPlugin = require("melon-cos-plugin");
   const projectName = "项目名";
+  const dirName = new Date().toLocaleDateString().replace(/\//g, "");
   plugins: [
     new MelonCosPlugin({
       projectName,
+      dirName,
       SecretId: 'COS账号',
       SecretKey: 'COS密码',
       Bucket: '存储桶ID',
@@ -28,7 +30,7 @@
     })
   ],
   output: {
-    publicPath: `https://cos.bluej.cn/${projectName}/`
+    publicPath: `https://cos.bluej.cn/${projectName}/${dirName}/`
   }
 ```
 
