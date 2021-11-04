@@ -5,6 +5,7 @@ const { ConcatSource } = require("webpack-sources");
 
 module.exports = class MelonCosPlugin {
   constructor(options) {
+    options.dirName = options.dirName || new Date().toLocaleDateString()
     this.options = options;
     this.cosObj = new COS({
       SecretId: options.SecretId,
@@ -16,7 +17,8 @@ module.exports = class MelonCosPlugin {
 
     compiler.hooks.compilation.tap('updateWebp', (compilation) => {
       HtmlWebpackPlugin.getHooks(compilation).beforeEmit.tapAsync('updateHtmlWebp', (data, cb) => {
-        data.html = data.html.replace(".png", ".webp");
+        // data.html = data.html.replace(".png", ".webp");
+        data.html = data.html.replace(/\/(\w+).png/g, `/${projectName}/${dirName}/$1.webp`);
         cb(null, data)
       })
       compilation.hooks.processAssets.tap({
@@ -25,19 +27,19 @@ module.exports = class MelonCosPlugin {
       }, (assets) => {
         Object.entries(assets).forEach(([pathname, source]) => {
           if (pathname.endsWith(".css")) {
-            assets[pathname] = new ConcatSource(source.source().replace(/.png/g, ".webp"));
+            // assets[pathname] = new ConcatSource(source.source().replace(/.png/g, ".webp"));
+            assets[pathname] = new ConcatSource(source.source().replace(/\/(\w+).png/g, `/${projectName}/${dirName}/$1.webp`));
           }
         });
       });
     });
 
     compiler.hooks.emit.tapAsync('ToCos', (params, cb) => {
-      const projectName = this.options.projectName;
-      const dirName = this.options.dirName || new Date().toLocaleDateString();
       for (const key in params.assets) {
         if (Object.hasOwnProperty.call(params.assets, key)) {
           if (!key.endsWith(".html")) {
-            this.uploadFile(path.join(projectName, dirName, key), params.assets[key].source());
+            this.uploadFile(path.join(this.options.this.options.dirName, dirName, key).replace(/\\/, "/"), params.assets[key].source());
+            // this.uploadFile(key, params.assets[key].source());
           }
         }
       }
