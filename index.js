@@ -18,7 +18,7 @@ module.exports = class MelonCosPlugin {
     compiler.hooks.compilation.tap('updateWebp', (compilation) => {
       HtmlWebpackPlugin.getHooks(compilation).beforeEmit.tapAsync('updateHtmlWebp', (data, cb) => {
         // data.html = data.html.replace(".png", ".webp");
-        data.html = data.html.replace(/\/(\w+).png/g, `/${projectName}/${dirName}/$1.webp`);
+        data.html = data.html.replace(/\/(\w+).png/g, `/${this.options.projectName}/${this.options.dirName}/$1.webp`);
         cb(null, data)
       })
       compilation.hooks.processAssets.tap({
@@ -28,7 +28,7 @@ module.exports = class MelonCosPlugin {
         Object.entries(assets).forEach(([pathname, source]) => {
           if (pathname.endsWith(".css")) {
             // assets[pathname] = new ConcatSource(source.source().replace(/.png/g, ".webp"));
-            assets[pathname] = new ConcatSource(source.source().replace(/\/(\w+).png/g, `/${projectName}/${dirName}/$1.webp`));
+            assets[pathname] = new ConcatSource(source.source().replace(/\/(\w+).png/g, `/${this.options.projectName}/${this.options.dirName}/$1.webp`));
           }
         });
       });
@@ -38,7 +38,7 @@ module.exports = class MelonCosPlugin {
       for (const key in params.assets) {
         if (Object.hasOwnProperty.call(params.assets, key)) {
           if (!key.endsWith(".html")) {
-            this.uploadFile(path.join(this.options.this.options.dirName, dirName, key).replace(/\\/, "/"), params.assets[key].source());
+            this.uploadFile(path.join(this.options.projectName, this.options.dirName, key).replace(/\\/, "/"), params.assets[key].source());
             // this.uploadFile(key, params.assets[key].source());
           }
         }
